@@ -1,0 +1,88 @@
+<?php
+	include('db_connect.php');
+	mysql_select_db("crm_system",$conn);
+	session_start();
+	$user_check=$_SESSION["logged_in"];
+	$sql=mysql_query("select username from signup where username='$user_check'",$conn);
+	$row=mysql_fetch_assoc ($sql);
+	$login_session =$row['username'];
+	if(!isset($login_session))
+	{
+		mysql_close($conn);
+		header('location:login.php');
+	}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Registration Form</title>
+  <script src="jquery.js"></script> 
+  <script src="jquery.min.js"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+  <script src="jquery.geocomplete.js"></script>
+  <script src="jquery.geocomplete.min.js"></script>
+ 
+
+  <script type='text/javascript' src='timepicki.js'></script>
+  <script type='text/javascript' src='jquery-ui.js'></script>
+  <script type='text/javascript' src='jquery-ui.min.js'></script>
+ 
+ 
+
+<script> 
+$(document).ready(
+function(){
+	$('#timepicker').timepicki({
+	overflow_minutes:true,
+	step_size_minutes:5
+	}); 
+	}
+);//function for timepicker
+</script>
+<script>
+$(document).ready(
+function(){
+	$('#datepicker').datepicker();
+	}
+);//function for date picker
+</script>
+
+<script>
+$(document).ready(
+function(){
+	$('#geocomplete').geocomplete();
+	}
+);//for autocompletion of locations
+</script>
+<script>
+$(document).ready(
+function(){
+	$('#geocomplete1').geocomplete();
+	}
+);//for autocompletion of locations
+</script>
+
+<link rel='stylesheet' type='text/css'href='timepicki.css'/> 
+<link rel='stylesheet' type='text/css'href='jquery-ui.structure.min.css'/>
+<link rel='stylesheet' type='text/css'href='jquery-ui.theme.min.css'/>
+<link rel="stylesheet" type="text/css" href="css.css"/>
+</head> 
+ <body>
+<div id="container">
+ <h1 class="register-title">Welcome to Insta Cab</h1>
+  <form class="register" action="form2.html">
+    <input id="geocomplete1" type="text" class="register-input" placeholder="Pickup Location" required/>
+	<input id="geocomplete" type="text" class="register-input" placeholder="Dropoff Location" required/>
+	<input id='datepicker' class="register-input" placeholder="Date" name="date" required>
+	<input id='timepicker' type='text' class="register-input" name='timepicker' placeholder="Time" required />
+    <input type="submit" value="Next" class="register-button">
+	
+  </form>
+</div>
+</body>
+</html>
+
+
+
