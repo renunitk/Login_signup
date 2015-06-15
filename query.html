@@ -60,9 +60,10 @@ app.controller('formController', ['$scope', '$http' ,function($scope, $http) {
         {
 			
 			console.log($scope.phone);
-			
+			//error:$scope is not defined
 			$http.get("exam.php?phone=".$scope.phone).
 			success(function(data, status, headers, config) {
+			//data=[{"email":"renurozera@gmail.com"}]
 			console.log(data[0].email);
 			$scope.email = data[0].email;
 			$scope.$apply();
