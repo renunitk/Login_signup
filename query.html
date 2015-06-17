@@ -5,9 +5,67 @@
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="jquery.geocomplete.js"></script>
+<script type='text/javascript' src='timepicki.js'></script>
+<script type='text/javascript' src='jquery-ui.min.js'></script>
+<script>
+$(document).ready(
+function(){
+	$('#timepicker').timepicki({
+	overflow_minutes:true,
+	step_size_minutes:5
+	}); 
+	}
+);//function for timepicker
+</script>
+<script>
+$(document).ready(
+function(){
+	$('#datepicker').datepicker();
+	}
+);//function for date picker
+</script>
 
+<script>
+$(document).ready(
+function(){
+	$('#geocomplete').geocomplete();
+	}
+);//for autocompletion of locations
+</script>
+<script>
+$(document).ready(
+function(){
+	$('#geocomplete1').geocomplete();
+	}
+);//for autocompletion of locations
+
+</script>
+
+
+<script>
+function check(which)
+{
+		
+		if(which == "1") {
+        document.getElementById('one1').style.display = "table";
+        document.getElementById('two2').style.display = "none";
+
+        }
+    if(which == "2") {
+        document.getElementById('one1').style.display = "none";
+        document.getElementById('two2').style.display = "table";
+
+        }
+}
+
+</script>
+<link rel='stylesheet' type='text/css'href='jquery-ui.structure.min.css'/>
+<link rel='stylesheet' type='text/css'href='jquery-ui.theme.min.css'/>
+<link rel='stylesheet' type='text/css'href='timepicki.css'/> 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
@@ -20,62 +78,270 @@
 </head>
 <body>
 <div ng-app="mainApp" ng-controller="formController">
-<div class="conatainer" class="bs-example">
-<h3>Information</h3>
+<div class="conatainer" >
+<div class="col-xs-6">
 <form class="form-horizontal">
- <div class="form-group">
-        <label for="inputphone" class="control-label col-xs-2">Phone</label><br>
-		 <div class="col-xs-4">	
-            <input type="phone" class="form-control" placeholder="Mobile No." ng-model="phone"  required><br>
-	    </div>
- </div>
-  <div class="form-group">
-	<label for="inputEmail" class="control-label col-xs-2">Email</label><br>
-	<div class="col-xs-4">
-            <input type="email" class="form-control" placeholder="Email" ng-model="email" value="{{email}}" required><br>
-	</div>
-  </div>
- <div class="form-group">
-            <div class="col-xs-offset-2 col-xs-10">
-                <button type="submit" class="btn btn-primary">Book</button>
-            </div>
+<div class="form-group">
+<div class="control-label col-xs-2">	
+<h3>Information</h3>
+</div>
 </div>
 
-</form>
+<div class="form-group">
+    <label for="inputphone" class="control-label col-xs-2">Phone</label><br>
+    <div class="col-xs-4">	
+        <input type="phone" class="form-control" placeholder="Mobile No." ng-model="phone"  required><br>
+    </div>
+</div>
 
+
+<div class="form-group">
+	<label for="count" class="control-label col-xs-2">Count</label><br>
+	<div class="col-xs-4">	
+		<input type="text" class="form-control" placeholder="text" ng-model="count" value="{{count}}" required><br>
+	</div>
+</div>
+
+<div class="form-group">
+    <label for="inputEmail" class="control-label col-xs-2">Email</label><br>
+    <div class="col-xs-4">
+        <input type="email" class="form-control" placeholder="Email" ng-model="email" value="{{email}}" required><br>
+    </div>
+</div>
+
+<div class="form-group">
+	<label for="inputLocation" class="control-label col-xs-2">Pickup Location</label><br>
+	<div class="col-xs-4">
+		  <input type="text" class="form-control" placeholder="Pickup Location" ng-model="pick_up" id="geocomplete"  required><br>
+	</div>
+</div>
+
+<div class="form-group">
+	<label for="inputLocation" class="control-label col-xs-2">Dropoff Location</label><br>
+	<div class="col-xs-4">
+		  <input type="text" class="form-control" placeholder="Dropoff Location" ng-model="drop_off" id="geocomplete1"  required><br>
+	</div>
+</div>
+
+<div class="form-group">
+	<label for="inputEmail" class="control-label col-xs-2">Way of travel :</label><br>
+	<label class="radio-inline">
+    <input type="radio" ng model="student.way" value="one" id="one" name="mode" onClick="check(1)">One way
+    </label>
+    <label class="radio-inline">
+    <input type="radio"ng model="student.way" value="two" id="two" name="mode" onClick="check(2)">Two way
+    </label>
+    <label class="radio-inline">
+    <input type="radio" ng model="student.way" value="hourly" id="hourly" name="mode" onClick="check(2)">Hourly Rentals
+    </label>
+</div> 
+<div class="form-group">
+<div class="col-xs-offset-2 col-xs-2">
+<table id="one1" style="display:none;" class="table  table-striped table-bordered">
+<tr><td><input type="radio" value="suv" id="suv" name="car"></td><td>SUV</td></tr>
+<tr><td><input type="radio" value="sedan" id="sedan" name="car"></td><td>SEDAN</td></tr>
+</table>
+</div>
+</div>
+<div class="form-group">
+<div class="col-xs-offset-2 col-xs-2">
+<table id="two2" style="display:none;" class="table table-striped table-bordered">
+<tr><td><input type="radio" value="suv" id="suv" name="car"></td><td>SUV</td></tr>
+<tr><td><input type="radio" value="sedan" id="sedan" name="car"></td><td>SEDAN</td></tr>
+<tr><td><input type="radio" value="hatchback" id="hatchback" name="car"></td><td>HATCHBACK</td></tr>
+</table>
+</div>
+</div>
+<div class="form-group">
+	<label for="inputDate" class="control-label col-xs-2">Date :</label><br>
+	<div class="col-xs-4">
+		  <input type="text" class="form-control" placeholder="Date" ng-model="date" id="datepicker"required><br>
+	</div>
+</div>
+<div class="form-group">
+	<label for="inputTime" class="control-label col-xs-2">Time :</label><br>
+	<div class="col-xs-4">
+		  <input type="text" class="form-control" placeholder="Time" ng-model="time" id="timepicker"  required><br>
+	</div>
+</div>
+<div class="form-group">
+	<label for="inputDays" class="control-label col-xs-2">No. of Days :</label><br>
+	<div class="col-xs-4">
+		  <input type="number" class="form-control" placeholder="No.of Days" min="1" step="1" ng-model="days" required><br>
+	</div>
+</div>
+<div class="form-group">
+    <div class="col-xs-offset-2 col-xs-10">
+        <button type="submit" class="btn btn-primary">Book</button>
+    </div>
+</div>
+</form>
+</div>
+<div class="col-xs-6">
+<form class="form-horizontal">
+<div class="form-group">
+<div class="control-label col-xs-2">	
+<h3>Customer Information</h3>
+</div>
+</div>
+<div class="form-group">
+    <label for="inputname" class="control-label col-xs-2">Name :</label><br>
+    <div class="col-xs-4">	
+        <input type="text" class="form-control" placeholder="Name" ng-model="name"  required><br>
+    </div>
+</div>
+<div class="form-group">
+<label for="inputEmail" class="control-label col-xs-2">Email :</label><br>
+<div class="col-xs-4">
+<div ng-controller="emailctrl">
+<div ng-repeat="emails in allemails">
+	<div style="display:inline">
+	<span>
+        <input type="email" class="form-control" placeholder="Email" ng-model="email" required><br>
+    </span>
+	<span ng-hide="email.length == 1">
+      
+        <input type="submit" href ng-click="allemails.splice($index, 1)" value="Remove" class="btn btn-primary">
+	</div>
+    </span>
+	<hr/>
+</div>
+<div class="form-group">
+    <div class="col-xs-offset-2 col-xs-10">
+        <button type="submit"  href ng-click="newItem($event)"  class="btn btn-primary">Add new email</button>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<div class="form-group">
+<div>	
+<h3>Previous Records:</h3>
+</div>
+</div>
+<div class="form-group">
+<div ng-controller="Controller">
+<table class="table table-bordered table-striped table-hover">
+<thead>
+<tr>
+<th>Source-Destination</th>
+<th>Booking Date</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><a href ng-click="show()">Delhi-Jaipur</a></td>
+<td>13-05-2015</td>
+<td>Completed</td>
+</tr>
+<tr>
+<td>Delhi-Rishikesh</td>
+<td>17-06-2015</td>
+<td>Confirmed</td>
+</tr>
+<tr>
+<td>Delhi-Kurukshetra</td>
+<td>25-06-2015</td>
+<td>Pending</td>
+</tr>
+</tbody>
+</table>
+<script type="text/ng-template" id="modal.html">
+<div class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">Booking Details</h4>
+</div>
+<div class="modal-body">
+<p>History ....(Details)</p>
+</div>
+<div class="modal-footer">
+<button type="button" ng-click="close('Okay')" class="btn btn-default" data-dismiss="modal">Okay!</button>
+</div>
+</div>
+</div>
+</div>
+</script>
+</div>    
+</div>
+</div>
 </div>
 </div>
 <script>
-var app = angular.module("mainApp", []);
+var app = angular.module("mainApp",['angularModalService']);
 
 app.controller('formController', ['$scope', '$http' ,function($scope, $http) {
-    $scope.$watch('phone', function (tmpStr)
+    $scope.$watch('phone', function (newValue ,oldValue)
     {
-      console.log(tmpStr);
-      if (!tmpStr || tmpStr.length === 0)
-        return 0;
+      console.log("New==>"+newValue);
+	  console.log("Old==>"+oldValue);
+     
         // if searchStr is still the same..
         // go ahead and retrieve the data
-        if (tmpStr === $scope.phone)
+       if ( newValue !== oldValue )
         {
 			
-			console.log($scope.phone);
-			//error:.$scope is not defined
-			$http.get("exam.php?phone=".$scope.phone).
+			//console.log($scope.phone);
+			//error:$scope is not defined
+			$http.get("exam.php?phone="+newValue).
 			success(function(data, status, headers, config) {
 			//data=[{"email":"renurozera@gmail.com"}]
-			console.log(data[0].email);
-			$scope.email = data[0].email;
-			$scope.$apply();
+			console.log(data);
+			$scope.email = data.email;
+			//$scope.$apply();//No use until u want to execute a function before watch service to start 
 			}).
-				error(function(data, status, headers, config) {
+				error(
+				function(data, status, headers, config) {
 				// log error
 				alert("error");
 			});
 		}
-    });
+    });//watch end
+	$scope.count=0;
+    $scope.$watch(function(scope){
+		console.log(scope.count);
+		scope.count++;
+		return scope.count;
+		});
 }]);
+app.controller('emailctrl',function($scope){ 
+    var counter=0;
+    $scope.allemails = [ {id:counter,inline:true} ];
 
+    $scope.newItem = function($event){
+        counter++;
+        $scope.allemails.push(  { id:counter,inline:true} );
+        $event.preventDefault();
+    }
+}); 
+//controller for modal
+app.controller('Controller', function($scope, ModalService) {
+    
+    $scope.show = function() {
+        ModalService.showModal({
+            templateUrl: 'modal.html',
+            controller: "ModalController"
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                console.log("closed");
+            });
+        });
+    };
+    
+});
+
+app.controller('ModalController', function($scope, close) {
+  
+ $scope.close = function(result) {
+ 	close(result, 500); // close, but give 500ms for bootstrap to animate
+ };
+
+});
 </script>
 </body>
 </html>
